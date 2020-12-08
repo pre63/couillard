@@ -1,5 +1,4 @@
 ![](https://badgen.net/bundlephobia/minzip/couillard)
-![](https://badgen.net/bundlephobia/tree-shaking/couillard)
 ![](https://badgen.net/bundlephobia/dependency-count/couillard)
 
 # Couillard
