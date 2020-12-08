@@ -1,0 +1,21 @@
+{
+  "name": "couillard",
+  "version": "0.0.5",
+  "description": "Couillard is a small trebuchet, you aim, and launch at your users.",
+  "main": "index.js",
+  "repository": "https://github.com/pre63/couillard",
+  "author": "pre63 <pre63@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test.js",
+    "pub": "yarn test && yarn publish"
+  },
+  "keywords": [
+    "A/B Testing",
+    "lean",
+    "user experience",
+    "fast",
+    "tiny",
+    "simple controlled experiment"
+  ]
+}
