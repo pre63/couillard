@@ -26,12 +26,16 @@ const storage =
 const aim = (name = 'noname', percentage = 0, variants = []) =>
   storage.get(name) ||
   storage.set(name, [
-    + (Math.random() * 100 < percentage),
+    +(Math.random() * 100 < percentage),
     variants[Math.floor(Math.random() * 10) % variants.length]
   ])
 
-const launch = (name = 'noname', variant, component) => {
-  const [show, variant2] = storage.get(name)
+const launch = (name = '', variant, component) => {
+  const experiment = storage.get(name)
+  if (!experiment) {
+    throw 'Couillard: Experiment "' + name + '" does not exist.'
+  }
+  const [show, variant2] = experiment
   return show > 0 && variant == variant2 ? component : () => null
 }
 
