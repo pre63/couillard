@@ -26,7 +26,7 @@ const storage =
 const aim = (name = 'noname', percentage = 0, variants = []) =>
   storage.get(name) ||
   storage.set(name, [
-    Math.floor(Math.random() * percentage) % 2,
+    + (Math.random() * 100 < percentage),
     variants[Math.floor(Math.random() * 10) % variants.length]
   ])
 
