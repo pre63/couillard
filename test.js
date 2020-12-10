@@ -14,7 +14,7 @@ const Welcome = launch('welcome', 'A', a => assert.fail('should not be called.')
 
 assert.strictEqual(typeof Welcome, 'function', 'Should be a function.')
 
-const f = hit('welcome', 'A', a => true)
+const f = hit('welcome', () => true)
 assert.strictEqual(f(), true, 'Should return true.')
 
 console.log('Testing done.')

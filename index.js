@@ -51,6 +51,7 @@
       run && cb && cb({ experiment: n, variant, anonymousId: S.g(anon)[0] })
       return run ? comp : np
     },
-    hit: (e, v, cb) => () => cb && cb({ experiment: e, variant: v, anonymousId: S.g(anon)[0] })
+    hit: (e, cb) => () =>
+      cb && cb({ experiment: e, variant: S.g(pr + e)[1], anonymousId: S.g(anon)[0] })
   }
 })()
