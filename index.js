@@ -1,42 +1,56 @@
-const Maybe = a =>
-  a !== null && a !== undefined
-    ? {
-        map: f => Maybe(f(a)),
-        chain: f => f(a)
-      }
-    : { map: () => Maybe(a), chain: f => f(a) }
+;(() => {
+  const gen = () =>
+      'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        var r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8
+        return v.toString(16)
+      }),
+    pr = 'exp_',
+    anon = pr + 'anon',
+    np = () => {},
+    M = a =>
+      a !== null && a !== undefined
+        ? {
+            m: f => M(f(a)),
+            c: f => f(a)
+          }
+        : { m: () => M(a), c: f => f(a) },
+    S =
+      typeof window !== 'undefined'
+        ? {
+            g: n =>
+              M(document.cookie)
+                .m(a => a.split('; '))
+                .m(a => a.find(row => row.startsWith(n)))
+                .m(a => a.split('='))
+                .m(a => a[1])
+                .m(a => a.split(','))
+                .c(a => a),
+            s: (a, b) => (document.cookie = a + '=' + b),
+            e: a => document.cookie.indexOf(a) > -1
+          }
+        : { g: () => [-1, -1], s: np, e: np }
 
-const storage =
-  typeof window !== 'undefined'
-    ? {
-        get: name =>
-          Maybe(document.cookie)
-            .map(a => a.split('; '))
-            .map(a => a.find(row => row.startsWith('experiment_' + name)))
-            .map(a => a.split('='))
-            .map(a => a[1])
-            .map(a => a.split(','))
-            .chain(a => a),
-        set: (name, a) => {
-          document.cookie = 'experiment_' + name + '=' + a[0] + ',' + a[1]
-        }
-      }
-    : { get: () => [-1, -1], set: () => {} }
+  S.e(anon) || S.s(anon, gen())
 
-const aim = (name = 'noname', percentage = 0, variants = []) =>
-  storage.get(name) ||
-  storage.set(name, [
-    +(Math.random() * 100 < percentage),
-    variants[Math.floor(Math.random() * 10) % variants.length]
-  ])
-
-const launch = (name = '', variant, component) => {
-  const experiment = storage.get(name)
-  if (!experiment) {
-    throw 'Couillard: Experiment "' + name + '" does not exist.'
+  module.exports = {
+    aim: (n, all = 0, va = [], cb) => {
+      if (!n) return
+      S.e(pr + n) ||
+        (cb && cb({ experiment: n, allocation: all, variants: va, anonymousId: S.g(anon)[0] }),
+        S.s(
+          pr + n,
+          +(Math.random() * 100 < all) + ',' + va[Math.floor(Math.random() * 10) % va.length]
+        ))
+    },
+    launch: (n, variant, cb, comp) => {
+      exp = pr + n
+      if (!S.e(exp)) return np
+      let [s, v] = S.g(exp)
+      let run = s > 0 && variant == v
+      run && cb && cb({ experiment: n, variant, anonymousId: S.g(anon)[0] })
+      return run ? comp : np
+    },
+    hit: (e, v, cb) => () => cb && cb({ experiment: e, variant: v, anonymousId: S.g(anon)[0] })
   }
-  const [show, variant2] = experiment
-  return show > 0 && variant == variant2 ? component : () => null
-}
-
-module.exports = { aim, launch }
+})()

@@ -1,13 +1,13 @@
 {
   "name": "couillard",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Couillard is a small trebuchet, you aim, and launch at your users.",
   "main": "index.js",
   "repository": "https://github.com/pre63/couillard",
   "author": "pre63 <pre63@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "test": "node test.js",
+    "test": "nfmt && node test.js",
     "pub": "yarn test && yarn publish"
   },
   "keywords": [
