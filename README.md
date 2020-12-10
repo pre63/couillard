@@ -2,7 +2,7 @@
 ![](https://badgen.net/bundlephobia/dependency-count/couillard)
 
 # Couillard
-Couillard is a small trebuchet you aim and launch at your users. It's a *lean* A/B testing tool to validate hypotheses and determine what to build.
+Couillard is a [small trebuchet](https://en.wikipedia.org/wiki/Trebuchet#Couillard) you aim and launch at your users. It's a *lean* A/B testing tool to validate hypotheses and determine what to build.
 
 ## More About Lean A/B Testing
 - [Unit 3 Module 1: An Introduction to Experimental Product Development
