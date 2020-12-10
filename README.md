@@ -33,16 +33,16 @@ aim('welcome', 50, ['A', 'B'], saveMetrics)
 // Create variation A component.
 const WelcomeA = launch('welcome', 'A', saveMetrics, props => (
   <p>
-    Welcome I'm experiment A, {props.name},{' '}
-    <button onClick={hit('welcome', 'A', saveMetrics)}>Click Me</button>{' '}
+    Welcome I'm experiment A, {props.name},
+    <button onClick={hit('welcome', saveMetrics)}>Click Me</button>
   </p>
 ))
 
 // Create variation B component.
 const WelcomeB = launch('welcome', 'B', saveMetrics, props => (
   <p>
-    Welcome I'm experiment B, {props.name},{' '}
-    <button onClick={hit('welcome', 'B', saveMetrics)}>Click Me</button>
+    Welcome I'm experiment B, {props.name},
+    <button onClick={hit('welcome', saveMetrics)}>Click Me</button>
   </p>
 ))
 
