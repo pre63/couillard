@@ -34,24 +34,24 @@
   S.e(anon) || S.s(anon, gen())
 
   module.exports = {
-    aim: (n, all = 0, va = [], cb) => {
-      if (!n) return
-      S.e(pr + n) ||
-        (cb && cb({ experiment: n, allocation: all, variants: va, anonymousId: S.g(anon)[0] }),
-        S.s(
-          pr + n,
-          +(Math.random() * 100 < all) + ',' + va[Math.floor(Math.random() * 10) % va.length]
-        ))
+    aim: (n, a = 0, cb, vrs) => {
+      if (!n) return np
+      if (!S.e(pr + n)) {
+        let vs = Object.keys(vrs),
+          s = +(Math.random() * 100 < a),
+          v = vs[Math.floor(Math.random() * 10) % vs.length]
+        cb &&
+          cb({ experiment: n, allocation: a, variant: v, variants: vs, anonymousId: S.g(anon)[0] })
+        S.s(pr + n, s + ',' + v)
+      }
+      let [s, v] = S.g(pr + n)
+      return s > 0 ? vrs[v] : vrs.default || np
     },
-    launch: (n, variant, cb, comp) => {
-      exp = pr + n
-      if (!S.e(exp)) return np
-      let [s, v] = S.g(exp)
-      let run = s > 0 && variant == v
-      run && cb && cb({ experiment: n, variant, anonymousId: S.g(anon)[0] })
-      return run ? comp : np
+    launch: (n, cb) => {
+      if (!S.e(pr + n)) return
+      let [s, v] = S.g(pr + n)
+      return s > 0 && cb && cb({ experiment: n, variant: v, anonymousId: S.g(anon)[0] })
     },
-    hit: (e, cb) => () =>
-      cb && cb({ experiment: e, variant: S.g(pr + e)[1], anonymousId: S.g(anon)[0] })
+    hit: (n, cb) => cb && cb({ experiment: n, variant: S.g(pr + n)[1], anonymousId: S.g(anon)[0] })
   }
 })()

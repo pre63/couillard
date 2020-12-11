@@ -1,6 +1,6 @@
 {
   "name": "couillard",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "Couillard is a small trebuchet, you aim, and launch at your users.",
   "main": "index.js",
   "repository": "https://github.com/pre63/couillard",

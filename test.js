@@ -5,16 +5,26 @@ window = {}
 window.document = {}
 window.document.cookie = ''
 
-const comp = () => 50
-const expected = { experiment: 'welcome', allocation: 50, variants: ['A'], anonymousId: -1 }
+const expected = {
+  experiment: 'welcome',
+  allocation: 50,
+  variant: 'A',
+  variants: ['A', 'B', 'default'],
+  anonymousId: -1
+}
 
-aim('welcome', 50, ['A'], a => assert.deepStrictEqual(a, expected))
-
-const Welcome = launch('welcome', 'A', a => assert.fail('should not be called.'), comp)
+const Welcome = aim('welcome', 50, a => assert.deepStrictEqual({ ...a, variant: 'A' }, expected), {
+  A: () => 50,
+  B: () => 100,
+  default: () => null
+})
 
 assert.strictEqual(typeof Welcome, 'function', 'Should be a function.')
+assert.strictEqual(Welcome(), null, 'Should be null.')
 
-const f = hit('welcome', () => true)
-assert.strictEqual(f(), true, 'Should return true.')
+launch('welcome', a => assert.fail('should not be called.'))
+
+const t = hit('welcome', () => true)
+assert.strictEqual(t, true, 'Should return true.')
 
 console.log('Testing done.')

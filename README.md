@@ -19,41 +19,46 @@ yarn add couillard
 
 ## Usage
 ```javascript
-// Your metrics store, can be Segment, Amplitude, SQL, mongo, or what ever you like.
+// Your metrics store, can be Segment, Amplitude, SQL, mongo, or whatever you like.
 const saveMetrics = metrics =>
   fetch('...', {
     method: 'POST',
-    ...,
-    body: metrics
+    body: JSON.stringify(metrics)
   })
 
-// Aim your experiment at your users.
-aim('welcome', 50, ['A', 'B'], saveMetrics)
-
 // Create variation A component.
-const WelcomeA = launch('welcome', 'A', saveMetrics, props => (
+const WelcomeA = props => (
   <p>
     Welcome I'm experiment A, {props.name},
     <button onClick={hit('welcome', saveMetrics)}>Click Me</button>
   </p>
-))
+)
 
 // Create variation B component.
-const WelcomeB = launch('welcome', 'B', saveMetrics, props => (
+const WelcomeB = props => (
   <p>
     Welcome I'm experiment B, {props.name},
     <button onClick={hit('welcome', saveMetrics)}>Click Me</button>
   </p>
-))
+)
+
+// Aim your experiment at your users.
+const Welcome = aim('welcome', 50, saveMetrics, {
+  A: WelcomeA,
+  B: WelcomeB
+})
 
 // Only WelcomeA or WelcomeB will render.
-const Home = () => (
-  <div class={style.home}>
-    <h1>Home</h1>
-    <WelcomeA name="Jannette" />
-    <WelcomeB name="John" />
-  </div>
-)
+const Home = () => {
+  launch('welcome', saveMetrics)
+
+  return (
+    <div class={style.home}>
+      <h1>Home</h1>
+      <Welcome name="Jannette" />
+    </div>
+  )
+}
 
 export Home
 ```
