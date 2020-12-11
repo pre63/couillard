@@ -7,7 +7,7 @@
       }),
     pr = 'exp_',
     anon = pr + 'anon',
-    np = () => {},
+    np = () => null,
     M = a =>
       a !== null && a !== undefined
         ? {
